@@ -10,15 +10,16 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/question")
 public class QuestionController {
     private final QuestionService questionService;
-    @RequestMapping("/question/list")
+    @RequestMapping("/list")
     public String list(Model model) {
         List<Question> questionList = questionService.getList();
         model.addAttribute("questionList", questionList);
         return "question_list";
     }
-    @RequestMapping("/question/detail/{id}")
+    @RequestMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Long id) {
         Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
