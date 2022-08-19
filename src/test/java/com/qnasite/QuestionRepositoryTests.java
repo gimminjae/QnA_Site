@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class QuestionRepositoryTests {
@@ -26,7 +29,13 @@ public class QuestionRepositoryTests {
         question2.setContent("내용2");
         question2.setCreateData(LocalDateTime.now());
         questionRepository.save(question2);
+    }
+    @Test
+    void testJpa_조회() {
+        List<Question> list = questionRepository.findAll();
+        assertThat(list.size()).isEqualTo(2);
 
-
+        Question question = list.get(0);
+        assertThat(question.getSubject()).isEqualTo("주제1");
     }
 }
