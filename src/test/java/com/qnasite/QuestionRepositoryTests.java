@@ -7,6 +7,7 @@ import com.qnasite.question.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -103,11 +104,23 @@ public class QuestionRepositoryTests {
         answerRepository.save(answer);
     }
     @Test
-    void testJpa_답변_조회() {
+    void testJpa_답변에_연결된_질문_찾기() {
         Optional<Answer> optionalAnswer = answerRepository.findById(1L);
         assertTrue(optionalAnswer.isPresent());
 
         Answer answer = optionalAnswer.get();
         assertThat(answer.getQuestion().getId()).isEqualTo(1);
+    }
+    @Transactional
+    @Test
+    void testJpa_질문에_달린_답변_찾기() {
+        Optional<Question> oq = this.questionRepository.findById(1L);
+        assertTrue(oq.isPresent());
+        Question q = oq.get();
+
+        List<Answer> answerList = q.getAnswerList();
+
+        assertEquals(1, answerList.size());
+        assertEquals("답변1", answerList.get(0).getContent());
     }
 }
