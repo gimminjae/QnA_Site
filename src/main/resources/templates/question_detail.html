@@ -1,3 +1,4 @@
+<link rel="stylesheet" th:href="@{/style.css}" type="text/css">
 <h2 th:text="${question.subject}"></h2>
 <div th:text="${question.content}"></div>
 <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
