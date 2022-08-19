@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class AnswerController {
     private final QuestionService questionService;
+    private final AnswerService answerService;
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") long id, @RequestParam String content) {
         Question question = questionService.getQuestion(id);
-        //답변 저장 기능 구현해야 함
+        answerService.create(question, content);
         return "redirect:/question/detail/%s".formatted(id);
     }
 }
