@@ -1,5 +1,7 @@
 package com.qnasite;
 
+import com.qnasite.answer.Answer;
+import com.qnasite.answer.AnswerRepository;
 import com.qnasite.question.Question;
 import com.qnasite.question.QuestionRepository;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class QuestionRepositoryTests {
+    @Autowired
+    private AnswerRepository answerRepository;
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -83,5 +87,19 @@ public class QuestionRepositoryTests {
         Question q = oq.get();
         this.questionRepository.delete(q);
         assertEquals(1, this.questionRepository.count());
+    }
+
+    //답변 테스트
+    @Test
+    void testJpa_답변_저장() {
+        Optional<Question> optionalQuestion = questionRepository.findById(1L);
+        assertTrue(optionalQuestion.isPresent());
+        Question question = optionalQuestion.get();
+
+        Answer answer = new Answer();
+        answer.setContent("답변1");
+        answer.setCreateDate(LocalDateTime.now());
+        answer.setQuestion(question);
+        answerRepository.save(answer);
     }
 }
