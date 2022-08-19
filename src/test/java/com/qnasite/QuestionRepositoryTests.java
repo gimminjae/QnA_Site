@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -46,5 +47,15 @@ public class QuestionRepositoryTests {
             Question question = optionalQuestion.get();
             assertThat(question.getSubject()).isEqualTo("주제1");
         }
+    }
+    @Test
+    void testJpa_조회3() {
+        Question question = questionRepository.findBySubject("주제1");
+        assertThat(question.getId()).isEqualTo(1);
+    }
+    @Test
+    void testJpa_조회4() {
+        Question question = questionRepository.findBySubjectAndContent("주제1", "내용1");
+        assertThat(question.getId()).isEqualTo(1);
     }
 }
