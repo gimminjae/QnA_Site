@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class QuestionRepositoryTests {
@@ -62,5 +63,15 @@ public class QuestionRepositoryTests {
     void testJpa_조회5() {
         List<Question> questionList = questionRepository.findBySubjectLike("주제%");
         assertThat(questionList.size()).isEqualTo(2);
+    }
+    @Test
+    void testJpa_수정() {
+        Optional<Question> optionalQuestion = questionRepository.findById(1L);
+        assertTrue(optionalQuestion.isPresent());
+
+        Question question = optionalQuestion.get();
+        question.setSubject("수정된 제목");
+        questionRepository.save(question);
+        assertThat(question.getSubject()).isEqualTo("수정된 제목");
     }
 }
