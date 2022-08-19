@@ -102,4 +102,12 @@ public class QuestionRepositoryTests {
         answer.setQuestion(question);
         answerRepository.save(answer);
     }
+    @Test
+    void testJpa_답변_조회() {
+        Optional<Answer> optionalAnswer = answerRepository.findById(1L);
+        assertTrue(optionalAnswer.isPresent());
+
+        Answer answer = optionalAnswer.get();
+        assertThat(answer.getQuestion().getId()).isEqualTo(1);
+    }
 }
