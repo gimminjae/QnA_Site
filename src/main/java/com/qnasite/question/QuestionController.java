@@ -1,5 +1,6 @@
 package com.qnasite.question;
 
+import com.qnasite.answer.AnswerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ public class QuestionController {
         return "question_list";
     }
     @RequestMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Long id) {
+    public String detail(Model model, @PathVariable("id") Long id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
