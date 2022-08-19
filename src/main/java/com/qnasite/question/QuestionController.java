@@ -3,8 +3,10 @@ package com.qnasite.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -29,8 +31,11 @@ public class QuestionController {
         return "question_form";
     }
     @PostMapping("/create")
-    public String createQuestion(@RequestParam String subject, @RequestParam String content) {
-        questionService.create(subject, content);
+    public String createQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "question_form";
+        }
+        questionService.create(questionForm.getSubject(), questionForm.getContent());
         return "redirect:/question/list";
     }
 }
