@@ -58,4 +58,9 @@ public class QuestionRepositoryTests {
         Question question = questionRepository.findBySubjectAndContent("주제1", "내용1");
         assertThat(question.getId()).isEqualTo(1);
     }
+    @Test
+    void testJpa_조회5() {
+        List<Question> questionList = questionRepository.findBySubjectLike("주제%");
+        assertThat(questionList.size()).isEqualTo(2);
+    }
 }
