@@ -111,7 +111,7 @@ public class QuestionRepositoryTests {
         Answer answer = optionalAnswer.get();
         assertThat(answer.getQuestion().getId()).isEqualTo(1);
     }
-    @Transactional
+    @Transactional //메서드가 종료될 때까지 DB 세션이 유지된다.
     @Test
     void testJpa_질문에_달린_답변_찾기() {
         Optional<Question> oq = this.questionRepository.findById(1L);
