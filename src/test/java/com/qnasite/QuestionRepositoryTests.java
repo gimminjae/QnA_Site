@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,5 +38,13 @@ public class QuestionRepositoryTests {
 
         Question question = list.get(0);
         assertThat(question.getSubject()).isEqualTo("주제1");
+    }
+    @Test
+    void testJpa_조회2() {
+        Optional<Question> optionalQuestion = questionRepository.findById(1L);
+        if(optionalQuestion.isPresent()) {
+            Question question = optionalQuestion.get();
+            assertThat(question.getSubject()).isEqualTo("주제1");
+        }
     }
 }
