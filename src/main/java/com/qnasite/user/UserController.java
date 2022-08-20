@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
-        return "sign_up";
+        return "signup_form";
     }
     @PostMapping("/signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {

@@ -20,6 +20,5 @@ public class SiteUser {
     private String password;
 
     @Column(unique = true)
-    @Email
     private String email;
 }
