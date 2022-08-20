@@ -30,13 +30,13 @@ public class QuestionRepositoryTests {
         Question question1 = new Question();
         question1.setSubject("주제1");
         question1.setContent("내용1");
-        question1.setCreateData(LocalDateTime.now());
+        question1.setCreateDate(LocalDateTime.now());
         questionRepository.save(question1);
 
         Question question2 = new Question();
         question2.setSubject("주제2");
         question2.setContent("내용2");
-        question2.setCreateData(LocalDateTime.now());
+        question2.setCreateDate(LocalDateTime.now());
         questionRepository.save(question2);
     }
     @Test
