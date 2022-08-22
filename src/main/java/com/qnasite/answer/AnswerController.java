@@ -5,6 +5,7 @@ import com.qnasite.question.QuestionService;
 import com.qnasite.user.SiteUser;
 import com.qnasite.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ public class AnswerController {
     private final AnswerService answerService;
     private final UserService userService;
     @PostMapping("/create/{id}")
+    @PreAuthorize("isAuthenticated()")
     public String createAnswer(Model model, @PathVariable("id") long id, @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
         Question question = questionService.getQuestion(id);
         SiteUser siteUser = userService.getUser(principal.getName());

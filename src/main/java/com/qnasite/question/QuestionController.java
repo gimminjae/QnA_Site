@@ -5,6 +5,7 @@ import com.qnasite.user.SiteUser;
 import com.qnasite.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,10 +34,12 @@ public class QuestionController {
         return "question_detail";
     }
     @GetMapping("/create")
+    @PreAuthorize("isAuthenticated()") //로그인 상태에서만 접근가능
     public String createQuestion(QuestionForm questionForm) {
         return "question_form";
     }
     @PostMapping("/create")
+    @PreAuthorize("isAuthenticated()")
     public String createQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
         if(bindingResult.hasErrors()) {
             return "question_form";
