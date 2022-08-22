@@ -1,9 +1,12 @@
 package com.qnasite.user;
 
+import com.qnasite.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,4 +24,14 @@ public class UserService {
 
         return siteUser;
     }
+    public SiteUser getUser(String username) {
+//        Optional<SiteUser> optionalSiteUser = userRepository.findByUsername(username);
+//        if(optionalSiteUser.isPresent()) {
+//            return optionalSiteUser.get();
+//        } else {
+//            throw new DataNotFoundException("siteuser not found");
+//        }
+        return userRepository.findByUsername(username).orElseThrow(() -> new DataNotFoundException("siteuser not found"));
+    }
+
 }
