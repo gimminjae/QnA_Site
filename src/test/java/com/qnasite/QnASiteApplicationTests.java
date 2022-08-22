@@ -22,7 +22,8 @@ class QnASiteApplicationTests {
         for(int i = 0; i < 100; i++) {
             String subject = "제목%d".formatted(i+1);
             String content = "내용%d".formatted(i + 1);
-            questionService.create(subject, content);
+
+            questionService.create(subject, content, null);
         }
     }
 
