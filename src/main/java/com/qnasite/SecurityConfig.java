@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @EnableWebSecurity //모든 요청 URL이 스프링 시큐리티의 제어를 받도록 만드는 애너테이션
@@ -32,6 +33,11 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/user/login")
                 .defaultSuccessUrl("/")
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) //로그아웃 URL을 /user/logout으로 설정
+                .logoutSuccessUrl("/") // 로그아웃이 성공하면 루트(/) 페이지로 이동
+                .invalidateHttpSession(true) //로그아웃시 생성된 사용자 세션도 삭제
         ;
 
         return httpSecurity.build();
