@@ -1,15 +1,18 @@
 package com.qnasite.question;
 
+import com.qnasite.DataNotFoundException;
 import com.qnasite.answer.AnswerForm;
 import com.qnasite.user.SiteUser;
 import com.qnasite.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -47,5 +50,16 @@ public class QuestionController {
         SiteUser siteUser = userService.getUser(principal.getName());
         questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id]")
+    public String modifyQuestion(QuestionForm questionForm, @PathVariable("id") Long id, Principal principal) {
+        Question question = questionService.getQuestion(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        return "question_form";
     }
 }
