@@ -12,6 +12,13 @@
                    th:if="${question.author != null
                    and #authentication.getPrincipal().getUsername == question.author.username}"
                    th:text="수정"></a>
+                <a onclick="if(confirm('정말로 삭제하시겠습니까?')) return false"
+                   href="javascript:void(0);" th:data-uri="@{|question/delete/${question.id}|}"
+                   class="deleete btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${question.author != null
+                   and #authentication.getPrincipal().getUsername == question.author.username}"
+                   th:text="삭제"></a>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
@@ -45,7 +52,8 @@
     <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
         <div th:replace="form_errors :: formErrorsFragment"></div>
         <!--        div 엘리먼트를 form_errors.html 파일의 th:fragment 속성명이 formErrorsFragment인 엘리먼트로 교체하라는 의미이다.-->
-        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
+                  rows="10"></textarea>
         <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
         <input sec:authorize="isAnonymous()" disabled type="submit" value="답변등록" class="btn btn-primary my-2">
         <input sec:authorize="isAuthenticated()" type="submit" value="답변등록" class="btn btn-primary my-2">
