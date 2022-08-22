@@ -27,5 +27,5 @@ public class Answer {
     @ManyToOne
     private SiteUser author;
 
-    private LocalDateTime modifyTime;
+    private LocalDateTime modifyDate;
 }

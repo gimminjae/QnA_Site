@@ -52,7 +52,7 @@ public class QuestionController {
         return "redirect:/question/list";
     }
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/modify/{id]")
+    @GetMapping("/modify/{id}")
     public String modifyQuestion(QuestionForm questionForm, @PathVariable("id") Long id, Principal principal) {
         Question question = questionService.getQuestion(id);
         if(!question.getAuthor().getUsername().equals(principal.getName())) {
@@ -61,5 +61,19 @@ public class QuestionController {
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
         return "question_form";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String modifyQuestion(@Valid QuestionForm questionForm, BindingResult bindingResult,
+                                 @PathVariable("id") Long id, Principal principal) {
+        if(bindingResult.hasErrors()) return "question_form";
+
+        Question question = questionService.getQuestion(id);
+
+        if(!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        return "redirect:/question/detail/%d".formatted(id);
     }
 }
