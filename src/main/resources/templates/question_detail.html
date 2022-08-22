@@ -48,6 +48,7 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="my-3">
+                <!--버튼 구현 -->
                 <a onclick="if(!confirm('추천하시겠습니까?')) return false;"
                    class="recommend btn btn-sm btn-outline-secondary"
                    th:href="@{|/answer/vote/${answer.id}|}">
