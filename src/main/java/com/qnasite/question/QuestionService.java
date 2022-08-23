@@ -1,14 +1,17 @@
 package com.qnasite.question;
 
 import com.qnasite.DataNotFoundException;
+import com.qnasite.answer.Answer;
 import com.qnasite.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,5 +63,24 @@ public class QuestionService {
     public void vote(Question question, SiteUser siteUser) {
         question.getVoter().add(siteUser);
         questionRepository.save(question);
+    }
+
+    private Specification<Question> search(String kw) {
+        return new Specification<Question>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                query.distinct(true);
+                Join<Question, SiteUser> u1 = root.join("author", JoinType.LEFT);
+                Join<Question, Answer> a = root.join("answerList", JoinType.LEFT);
+                Join<Answer, Question> u2 = a.join("author", JoinType.LEFT);
+
+                return criteriaBuilder.or(criteriaBuilder.like(root.get("subject"), "%" + kw + "%"), // 제목
+                        criteriaBuilder.like(root.get("content"), "%" + kw + "%"),      // 내용
+                        criteriaBuilder.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자
+                        criteriaBuilder.like(a.get("content"), "%" + kw + "%"),      // 답변 내용
+                        criteriaBuilder.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자
+            }
+        };
     }
 }
