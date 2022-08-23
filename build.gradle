@@ -29,7 +29,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-//    화면에서 전달받은 입력 값을 검증하려면 Spring Boot Validation 라이브러리가 필요 / Spring Boot Validation
+
+    //화면에서 전달받은 입력 값을 검증하려면 Spring Boot Validation 라이브러리가 필요 / Spring Boot Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     //spring security
