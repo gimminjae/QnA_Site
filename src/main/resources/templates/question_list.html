@@ -34,9 +34,6 @@
             </td>
             <td th:if="${question.author != null}" th:text="${question.author.username}"></td>
             <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <!--위와 같은 코드 -->
-            <!--        <td>[[${question.subject}]]</td>-->
-            <!--        <td>[[${question.createDate}]]</td>-->
         </tr>
         </tbody>
     </table>
