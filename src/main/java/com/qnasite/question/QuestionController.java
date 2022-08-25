@@ -36,6 +36,8 @@ public class QuestionController {
     @RequestMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Long id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
+        if(question.getHit() == null) question.setHit(0L);
+        questionService.addHit(question);
         model.addAttribute("question", question);
         return "question_detail";
     }

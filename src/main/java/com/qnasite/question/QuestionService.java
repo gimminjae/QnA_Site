@@ -84,4 +84,9 @@ public class QuestionService {
             }
         };
     }
+
+    public void addHit(Question question) {
+        question.setHit(question.getHit() + 1);
+        questionRepository.save(question);
+    }
 }
