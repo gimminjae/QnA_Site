@@ -5,13 +5,12 @@
             <a th:href="@{/question/create}" class="btn btn-primary">질문 등록</a>
         </div>
         <div class="col-6">
-            <div class="input-group">
-                <input type="text" id="search_kw" class="form-control" th:value="${kw}">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-search">찾기</button>
-                </div>
-            </div>
+            <form class="input-group">
+                <input class="form-control" type="text" name="kw" placeholder="검색어를 입력해주세요." th:value="${param.kw}">
+                <button type="submit" class="btn btn-outline-secondary">검색</button>
+            </form>
         </div>
+    </div>
     </div>
     <table class="table">
         <thead class="table-dark">
@@ -62,9 +61,9 @@
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
-    <form th:action="@{/question/list}" method="get" id="searchForm">
-        <input type="hidden" id="kw" name="kw" th:value="${kw}">
-        <input type="hidden" id="page" name="page" th:value="${paging.number}">
-    </form>
+<!--    <form th:action="@{/question/list}" method="get" id="searchForm">-->
+<!--        <input type="hidden" id="kw" name="kw" th:value="${kw}">-->
+<!--        <input type="hidden" id="page" name="page" th:value="${paging.number}">-->
+<!--    </form>-->
 </div>
 </html>
